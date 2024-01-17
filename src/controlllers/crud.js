@@ -1,14 +1,22 @@
 const {Student} = require("../db")
 
-const createStudent = async (req,res) => {
-     try {
-        const newStudent = await Student.create(req.body)
-        res.json(newStudent)
-     } catch (error) {
-        res.status(400).json({error:error.message})
-     }
-}
-
+const createStudent = async (req, res) => {
+   try {
+     const { nota1, nota2, nota3, nota4 } = req.body;
+ 
+     const promedio = (nota1 + nota2 + nota3 + nota4) / 4;
+ 
+     const newStudent = await Student.create({
+       ...req.body,
+       promedio,
+     });
+ 
+     res.json(newStudent);
+   } catch (error) {
+     res.status(400).json({ error: error.message });
+   }
+ };
+ 
 const getStudents = async (req,res) => {
    try {
       const students = await Student.findAll()
